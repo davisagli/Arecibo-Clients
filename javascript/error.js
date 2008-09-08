@@ -1,4 +1,5 @@
-/* ClearWind: Arecibo error collector */
+// $Id$
+// Copyright ClearWind Consulting Ltd., 2008
 // Version 1.0
 // Posts to /v/1/
 

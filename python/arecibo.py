@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright ClearWind Consulting Ltd., 2008
+# Under the BSD License, see LICENSE.TXT
 from httplib import HTTPConnection
 from urllib import urlencode
 from urlparse import urlparse
@@ -8,8 +9,7 @@ from socket import gethostname
 import smtplib
 import simplejson
 
-#posturl = "http://arecibo.clearwind.ca/v/1/"
-posturl = "http://localhost:8000/v/1/"
+posturl = "http://arecibo.clearwind.ca/v/1/"
 postaddress = "arecibo@clearwind.ca"
 url = urlparse(posturl)
 
@@ -22,7 +22,7 @@ class post:
     def __init__(self):
         self._data = {}
         self.transport = "http"
-        self.smtp_server = "relay.plus.net"
+        self.smtp_server = "localhost"
         self.smtp_from = "noreply@clearwind.ca"
         self.set("server", gethostname())
         
@@ -76,7 +76,6 @@ class post:
 
 if __name__=='__main__':
     new = post()
-    #new.transport = "smtp"
     new.set("account", "6c36f6beaa9bbfeb1ad44e80d24565a3")
     new.set("priority", 4)
     new.set("user_agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X...")
