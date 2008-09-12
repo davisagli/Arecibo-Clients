@@ -1,0 +1,14 @@
+README.txt
+setup.cfg
+setup.py
+clearwind/__init__.py
+clearwind.arecibo.egg-info/PKG-INFO
+clearwind.arecibo.egg-info/SOURCES.txt
+clearwind.arecibo.egg-info/dependency_links.txt
+clearwind.arecibo.egg-info/entry_points.txt
+clearwind.arecibo.egg-info/namespace_packages.txt
+clearwind.arecibo.egg-info/not-zip-safe
+clearwind.arecibo.egg-info/requires.txt
+clearwind.arecibo.egg-info/top_level.txt
+clearwind/arecibo/__init__.py
+clearwind/arecibo/tests.py
