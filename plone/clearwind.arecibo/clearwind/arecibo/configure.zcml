@@ -5,13 +5,18 @@
     i18n_domain="clearwind.arecibo">
 
     <five:registerPackage package="." initialize=".initialize" />
-    
+    <include package=".browser" />    
+    <adapter
+       for="Products.CMFPlone.Portal.PloneSite"
+       provides=".interfaces.IAreciboConfiguration"
+       factory=".config.form_adapter" />
+       
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
       name="default"
       title="Arecibo"
       directory="profiles/default"
-      description="Arecibo skins"
+      description="Plone interface to Arecibo"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 </configure>

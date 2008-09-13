@@ -1,0 +1,12 @@
+<configure 
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+     for="Products.CMFPlone.Portal.PloneSite"
+     name="arecibo-configuration"
+     class=".config.AreciboConfigurationForm"
+     permission="cmf.ManagePortal"
+     />
+
+</configure>

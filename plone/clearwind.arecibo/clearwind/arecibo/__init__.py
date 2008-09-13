@@ -5,5 +5,7 @@ from Products.CMFCore.DirectoryView import registerDirectory
 registerDirectory('skins', globals())
 ModuleSecurityInfo('clearwind.arecibo.wrapper').declarePublic('arecibo')
 
+import config
+
 def initialize(context):
     """Initializer called when used as a Zope 2 product."""

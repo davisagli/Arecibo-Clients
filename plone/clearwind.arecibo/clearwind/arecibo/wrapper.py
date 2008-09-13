@@ -2,19 +2,26 @@ from lib.arecibo import post, postaddress
 from App.config import getConfiguration
 from AccessControl import getSecurityManager
 from ZODB.POSException import ConflictError
+from clearwind.arecibo.interfaces import IAreciboConfiguration
 
 def arecibo(context, **kw):
-    key = "xxxx"
+    qu = context.getSiteManager().queryUtility(IAreciboConfiguration, name='Arecibo_config')
+    key = qu.account_number
+    if not key:
+        return
     req = context.REQUEST
     error = post()
     
     mail_possible = not not context.MailHost.smtp_host
-    if mail_possible:
-        error.transport = "smtp"
+    if mail_possible and qu.transport == "smtp":
+        error.transport = "http"
         
     if kw.get("error_type") == 'NotFound':
         status = 404
         priority = 5
+    elif kw.get("error_type") == 'Unauthorized':
+        status = 403
+        priority = 3        
     else:
         status = 500
         priority = 1

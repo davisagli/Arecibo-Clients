@@ -1,6 +1,8 @@
 import transaction
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.DirectoryView import createDirectoryView
+from clearwind.arecibo.interfaces import IAreciboConfiguration
+from clearwind.arecibo.config import AreciboConfiguration
 
 EXTENSION_PROFILES = ('clearwind.arecibo:default',)
 
@@ -45,6 +47,14 @@ def install(self, reinstall=False):
                 portal_skins.addSkinSelection(skin, path)
     
     add(self, "arecibo", "clearwind.arecibo:skins")
+
+    sm = self.getSiteManager()
+
+    if not sm.queryUtility(IAreciboConfiguration, 
+        name='Arecibo_config'):
+        sm.registerUtility(AreciboConfiguration(),
+                           IAreciboConfiguration,
+                           'Arecibo_config')
 
     for extension_id in EXTENSION_PROFILES:
         portal_setup.runAllImportStepsFromProfile('profile-%s' % extension_id, purge_old=False)
