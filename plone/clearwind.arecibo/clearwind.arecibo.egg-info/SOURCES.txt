@@ -11,4 +11,12 @@ clearwind.arecibo.egg-info/not-zip-safe
 clearwind.arecibo.egg-info/requires.txt
 clearwind.arecibo.egg-info/top_level.txt
 clearwind/arecibo/__init__.py
+clearwind/arecibo/configure.zcml
 clearwind/arecibo/tests.py
+clearwind/arecibo/wrapper.py
+clearwind/arecibo/profiles/default/skins.xml
+clearwind/arecibo/skins/standard_error_message.py
+docs/HISTORY.txt
+docs/INSTALL.txt
+docs/LICENSE.GPL
+docs/LICENSE.txt

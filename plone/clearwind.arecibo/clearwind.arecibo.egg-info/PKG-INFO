@@ -1,10 +1,10 @@
 Metadata-Version: 1.0
 Name: clearwind.arecibo
-Version: 1.0dev
+Version: 0.2dev-r5
 Summary: UNKNOWN
-Home-page: http://svn.plone.org/svn/plone/plone.example
+Home-page: UNKNOWN
 Author: ClearWind Consulting
-Author-email: plone-developers@lists.sourceforge.net
+Author-email: andy@clearwind.ca
 License: GPL
 Description: Introduction
         ============
