@@ -4,7 +4,7 @@
 from httplib import HTTPConnection
 from urllib import urlencode
 from urlparse import urlparse
-from socket import gethostname
+from socket import gethostname, getdefaulttimeout, setdefaulttimeout
 
 import smtplib
 import simplejson
@@ -55,9 +55,13 @@ class post:
         elif key == "smtp":
             self._send_smtp()
     
-    def _send_smtp(self):
+    def _msg_body(self):
         body = simplejson.dumps(self._data)
         msg = "From: %s\r\nTo: %s\r\n\r\n%s" % (self.smtp_from, postaddress, body)
+        return msg
+            
+    def _send_smtp(self):
+        msg = self._msg_body()
         s = smtplib.SMTP(self.smtp_server)
         s.sendmail(self.smtp_from, postaddress, msg)
         s.quit()
@@ -68,12 +72,17 @@ class post:
             "Content-type": 'application/x-www-form-urlencoded; charset="utf-8"',
             "Accept": "text/plain"}
         data = self._data_encoded()
-        h.request("POST", url[2], data, headers)
+        oldtimeout = getdefaulttimeout()
+        try:
+            setdefaulttimeout(5)
+            h.request("POST", url[2], data, headers)
 
-        reply = h.getresponse()
-        if reply.status != 200:
-            raise ValueError, "Not posted successfully: %s" % reply.status
-
+            reply = h.getresponse()
+            if reply.status != 200:
+                raise ValueError, "Not posted successfully: %s" % reply.status
+        finally:
+            setdefaulttimeout(oldtimeout)
+            
 if __name__=='__main__':
     new = post()
     new.set("account", "6c36f6beaa9bbfeb1ad44e80d24565a3")
