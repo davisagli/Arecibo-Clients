@@ -47,9 +47,7 @@ arecibo.createForm = function() {
     } 
     if (arecibo.loaded) { return; }
     arecibo.loaded = true;
-    
     var form = iframe.createElement("form");
-    
     form.setAttribute("action", "http://arecibo.clearwind.ca/v/1/"); 
     form.setAttribute("method", "post");
 
@@ -60,7 +58,6 @@ arecibo.createForm = function() {
     arecibo.addInput(form, iframe, "priority", arecibo.priority);
     arecibo.addInput(form, iframe, "uid", arecibo.uid);
     if (typeof(arecibo.url) == "undefined") {
-
         arecibo.addInput(form, iframe, "url", window.location);        
     } else {
         arecibo.addInput(form, iframe, "url", arecibo.url);        
@@ -72,7 +69,7 @@ arecibo.createForm = function() {
     form.submit();
 };
 
-arecibo.run = function() {
+arecibo.postLoad = function() {
     var iframe = document.createElement("iframe");
     iframe.name = "error";
     iframe.id = "error";
@@ -80,4 +77,8 @@ arecibo.run = function() {
     iframe.style.visibility = "hidden";
     arecibo.register(iframe, "load", arecibo.createForm);
     document.body.appendChild(iframe);
+};
+
+arecibo.run = function() {
+    arecibo.register(window, "load", arecibo.postLoad);
 };
