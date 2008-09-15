@@ -53,5 +53,5 @@ def post(request, status, **kw):
     except:
         pass
         
-    return kw["uid"]
+    return data["uid"]
       

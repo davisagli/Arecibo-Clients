@@ -60,7 +60,6 @@ def arecibo(context, **kw):
         # use the MailHost to send out which is configured by the site
         # administrator, and has more functionality than straight smtplib
         try:
-            print error._msg_body()
             context.MailHost.send(error._msg_body())
         except ConflictError:
             raise
