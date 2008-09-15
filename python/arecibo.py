@@ -88,7 +88,7 @@ if __name__=='__main__':
     new.set("account", "6c36f6beaa9bbfeb1ad44e80d24565a3")
     new.set("priority", 4)
     new.set("user_agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X...")
-    new.set("url", "http://thepiratebay.org")
+    new.set("url", "http://badapp.org")
     new.set("uid", "123124123123")
     new.set("ip", "127.0.0.1")    
     new.set("type", "Test through smtp")
