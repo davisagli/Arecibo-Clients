@@ -44,7 +44,8 @@ class post:
     def _data_encoded(self):
         data = {}
         for k in keys:
-            data[k] = self._data.get(k)
+            if self._data.get(k):
+                data[k] = self._data.get(k)
         return urlencode(data)
 
     def _send(self):
