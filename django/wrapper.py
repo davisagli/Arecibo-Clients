@@ -4,12 +4,13 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from socket import gethostname
+
 import traceback
 import sys
 import time 
 
 def post(request, status, **kw):
-    exc_info = sys.exc_info()
+    exc_info = sys.exc_info() 
     data = {
         "account": settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER,
         "url": request.get_full_path(),
@@ -23,12 +24,18 @@ def post(request, status, **kw):
     }
 
     data.update(kw)
+    
+    # a 404 has some specific formatting of the error that
+    # can be useful
+    if status == 404:
+        msg = ""
+        for m in exc_info[1]:                             
+            tried = "\n".join(m["tried"])
+            msg = "Failed to find %s, tried: \n\t%s" % (m["path"], tried)
+        data["msg"] = msg
+                                                                   
+    # if we don't get a priority, make create one   
     if not data.get("priority"):
-        if isinstance(status, HttpResponse):
-            status = status.status_code
-        elif isinstance(status, Exception):
-            status = 404
-            
         if status == 500:
             data["priority"] = 1
         else: 
