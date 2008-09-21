@@ -26,7 +26,6 @@ def setupSkins(portal):
     add(portal, "arecibo", "clearwind.arecibo:skins")    
 
 def importVarious(context): 
-    import pdb; pdb.set_trace()
     if context.readDataFile("clearwind.arecibo.txt") is None:
         return
     portal = context.getSite()
