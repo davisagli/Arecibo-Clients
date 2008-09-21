@@ -1,4 +1,21 @@
 Introduction
 ============
+A connector from Plone to Arecibo, see http://www.areciboapp.com
 
+Changes
+============
+0.2 > 0.3:
 
+    - Removed the skins and layers
+    
+    - Made it catch all errors (even Zope ones) by patching SiteErrorLog
+    
+    - Allowed the override of configuration values by the use of site_configuration.py
+    
+    - Added in the ignores property
+    
+    - Made uninstalling remove configlet
+    
+    - Made install optional (just site_configuration.py will be enough)
+    
+    - Any errors sending to Arecibo are logged
