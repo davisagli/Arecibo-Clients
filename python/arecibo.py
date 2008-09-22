@@ -9,7 +9,7 @@ from socket import gethostname, getdefaulttimeout, setdefaulttimeout
 import smtplib
 import simplejson
 
-posturl = "http://localhost:8000/v/1/"
+posturl = "http://www.areciboapp.com/v/1/"
 postaddress = "arecibo@clearwind.ca"
 url = urlparse(posturl)
 
@@ -81,13 +81,13 @@ class post:
 
             reply = h.getresponse()
             if reply.status != 200:
-                raise ValueError, "Not posted successfully: %s" % reply.status
-        finally:
+                raise ValueError, "%s (%s)" % (reply.read(), reply.status)
+        finally:                                            
             setdefaulttimeout(oldtimeout)
             
 if __name__=='__main__':
     new = post()
-    new.set("account", "youraccount")
+    new.set("account", "xcfv")
     new.set("priority", 4)
     new.set("user_agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X...")
     new.set("url", "http://badapp.org")
