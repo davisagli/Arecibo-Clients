@@ -1,3 +1,4 @@
+HISTORY.txt
 README.txt
 setup.cfg
 setup.py
@@ -14,12 +15,15 @@ clearwind/arecibo/__init__.py
 clearwind/arecibo/config.py
 clearwind/arecibo/configure.zcml
 clearwind/arecibo/interfaces.py
+clearwind/arecibo/patch.py
 clearwind/arecibo/setuphandlers.py
+clearwind/arecibo/site_configuration.py.in
 clearwind/arecibo/tests.py
 clearwind/arecibo/version.txt
 clearwind/arecibo/wrapper.py
 clearwind/arecibo/Extensions/Install.py
 clearwind/arecibo/browser/__init__.py
+clearwind/arecibo/browser/arecibo-icon.png
 clearwind/arecibo/browser/config.py
 clearwind/arecibo/browser/configure.zcml
 clearwind/arecibo/lib/LICENSE.txt
@@ -35,9 +39,6 @@ clearwind/arecibo/lib/simplejson/tool.py
 clearwind/arecibo/profiles/default/actionicons.xml
 clearwind/arecibo/profiles/default/clearwind.arecibo.txt
 clearwind/arecibo/profiles/default/controlpanel.xml
-clearwind/arecibo/profiles/default/skins.xml
-clearwind/arecibo/skins/arecibo-icon.png
-clearwind/arecibo/skins/standard_error_message.py
 docs/HISTORY.txt
 docs/INSTALL.txt
 docs/LICENSE.GPL

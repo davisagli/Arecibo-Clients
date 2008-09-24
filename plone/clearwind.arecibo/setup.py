@@ -5,7 +5,7 @@ version = '0.3'
 
 setup(name='clearwind.arecibo',
       version=version,
-      description="",
+      description="Connector from Plone to Arecibo",
       long_description=open("README.txt").read() + "\n",
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[

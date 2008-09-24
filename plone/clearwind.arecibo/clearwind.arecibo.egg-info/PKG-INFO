@@ -1,23 +1,14 @@
 Metadata-Version: 1.0
 Name: clearwind.arecibo
-Version: 0.2dev-r16
+Version: 0.3dev-r26
 Summary: UNKNOWN
-Home-page: UNKNOWN
+Home-page: http://clearwind.ca
 Author: ClearWind Consulting
 Author-email: andy@clearwind.ca
-License: GPL
-Description: Introduction
-        ============
+License: BSD
+Description: This package is an interface to the Arecibo application from ClearWind. It provides an interface for Plone to report its errors. For more information see: http://areciboapp.com and specifically http://www.areciboapp.com/docs/plone/
         
         
-        
-        Changelog
-        =========
-        
-        1.0 - Unreleased
-        ----------------
-        
-        * Initial release
         
         
 Platform: UNKNOWN
