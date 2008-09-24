@@ -17,7 +17,7 @@ except:
     # please don't override this here, look in site_configuration.py for a chance to 
     # overload this, details are there too
     config = {                                          
-        "account": "cd10e6b25c3761600e1559fa40e59928",
+        "account": "",
         "transport": "http",
         "priorities": {
             404: 5,
@@ -25,7 +25,7 @@ except:
             500: 1,
         },
         "default-priority": 3,
-        "ignores": ["Redirect","NotFound"]
+        "ignores": ["Redirect",]
     }
 
 def get(context):

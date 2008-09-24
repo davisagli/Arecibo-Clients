@@ -1,7 +1,7 @@
 Metadata-Version: 1.0
 Name: clearwind.arecibo
-Version: 0.3dev-r26
-Summary: UNKNOWN
+Version: 0.3dev-r27
+Summary: Connector from Plone to Arecibo
 Home-page: http://clearwind.ca
 Author: ClearWind Consulting
 Author-email: andy@clearwind.ca
