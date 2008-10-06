@@ -1,14 +1,20 @@
 from django.conf import settings
 from django.http import HttpResponse
+from django.utils import simplejson
+
 from google.appengine.api import urlfetch
-import logging
+from google.appengine.api import mail
+
 from urllib import urlencode
 from urlparse import urljoin
+
+import logging
 import traceback
 import sys
 import time 
 
 posturl = "http://www.areciboapp.com/v/1/"
+postaddress = "arecibo@clearwind.ca"
 
 def get_host(request):
     """Returns the HTTP host using the environment or request headers."""
@@ -40,8 +46,8 @@ def post(request, status, **kw):
         "url": getpath(request),
         "ip": request.META.get('REMOTE_ADDR'),
         "traceback": "\n".join(traceback.format_tb(exc_info[2])),
-        "type": exc_info[0],
-        "msg": exc_info[1],
+        "type": str(exc_info[0]),
+        "msg": str(exc_info[1]),
         "status": status,
         "uid": time.time(),
         "user_agent": request.META.get('HTTP_USER_AGENT'),
@@ -66,10 +72,33 @@ def post(request, status, **kw):
         else: 
             data["priority"] = 5
 
-    udata = urlencode(data)
-    headers = {'Content-Type': 'application/x-www-form-urlencoded', "Accept": "text/plain"}
+    smtp = False
     try:
-        result = urlfetch.fetch(url=posturl, payload=udata, method=urlfetch.POST, headers=headers)
+        smtp = settings.ARECIBO_TRANSPORT == "smtp"
+    except AttributeError:
+        pass
+        
+    try:
+        if smtp:
+            try:
+                sender = settings.ARECIBO_EMAIL_SENDER_ADDRESS
+            except AttributeError:
+                raise ValueError, "We must have a valid ARECIBO_EMAIL_SENDER_ADDRESS in the settings."
+
+            mail.send_mail(
+                sender=sender,
+                to=postaddress,
+                subject="Error",
+                body=simplejson.dumps(data))
+        else:                
+            udata = urlencode(data)
+            headers = {'Content-Type': 'application/x-www-form-urlencoded', "Accept": "text/plain"}
+            result = urlfetch.fetch(
+                url=posturl, 
+                payload=udata, 
+                method=urlfetch.POST, 
+                headers=headers)
+
     except:
         # write to the standard google app engine log
         # http://code.google.com/appengine/docs/python/logging.html
