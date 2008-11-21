@@ -9,8 +9,17 @@ import traceback
 import sys
 import time 
 
+ignores = ["/robots.txt", "/favicon.ico"]
+
 def post(request, status, **kw):
-    exc_info = sys.exc_info() 
+    # first off, these items can just be ignored, we 
+    # really don't care about them too much
+    if request.path in ignores:
+        return
+    
+    exc_info = sys.exc_info()
+            
+    # build out data to send to Arecibo
     data = {
         "account": settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER,
         "url": request.build_absolute_uri(), 
@@ -29,22 +38,27 @@ def post(request, status, **kw):
     # can be useful
     if status == 404:
         msg = ""
-        for m in exc_info[1]:                             
-            tried = "\n".join(m["tried"])
-            msg = "Failed to find %s, tried: \n\t%s" % (m["path"], tried)
+        for m in exc_info[1]:
+            if isinstance(m, dict):
+                tried = "\n".join(m["tried"])
+                msg = "Failed to find %s, tried: \n%s" % (m["path"], tried)
+            else:
+                msg += m
         data["msg"] = msg
                                                                    
-    # if we don't get a priority, make create one   
+    # if we don't get a priority, lets create one   
     if not data.get("priority"):
         if status == 500:
             data["priority"] = 1
         else: 
             data["priority"] = 5
 
+    # populate my arecibo object
     err = error()
     for key, value in data.items():
         err.set(key, value)
     
+    # try to see if ARECIBO_TRANSPORT is defined
     try:
         if settings.ARECIBO_TRANSPORT == "smtp":
             err.transport = "smtp"
@@ -53,11 +67,16 @@ def post(request, status, **kw):
         
     try:
         if err.transport == "smtp":
-            # use djangos builtin mail 
-            send_mail("Error", error._msg_body(), "arecibo@%s" % gethostname(), postaddress)
+            # use Djangos builtin mail 
+            send_mail("Error", 
+                error._msg_body(), 
+                "arecibo@%s" % gethostname(),  
+                postaddress)
         else:                
             err.send()
     except:
+        # ideally we'd log this out here, but
+        # there isn't a built in log for Django
         pass
         
     return data["uid"]
