@@ -52,6 +52,7 @@ class ActionController::Base
       logger.error "Posting to Arecibo failed with: #{$!} for error #{@arecibodata[:type]}"
     end
     
+    # experimental
     begin
       render :template => ARECIBO_RESULT_TEMPLATE, 
              :status => @arecibodata[:status]
