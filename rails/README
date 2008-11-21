@@ -21,6 +21,15 @@ Add in the following into your environment settings, normally this would be conf
 ARECIBO_ACCOUNT_NUMBER = 'youraccountnumber'
 
 Where 'youraccountnumber' is replaced with the account number at: http://www.areciboapp.com/setup/keys/
+ 
+Copy assets/arecibo.rhtml to your app/views directory, you can then have this rendered
+as a result, so if you copy it to app/views/layouts you can add in the following to get a default template after an error:
+
+ARECIBO_RESULT_TEMPLATE = "layouts/arecibo"    
+
+The ARECIBO_RESULT_TEMPLATE variable can be set to any value you'd like to render an error 
+back. You'll get @arecibodata available to you which allows you to show any information you'd like to,
+by default we only show the UID for looking up in Arecibo.
 
 Sending errors
 ==============
@@ -31,40 +40,11 @@ and everything else priority 1. These should me altered to suit your needs (see 
 In both cases Rails catches the error and forwards it on Arecibo and then renders an error back to the user.
 If the sending to Arecibo fails, then a log message is written containing the error.
 
-Pre Rails 2.0
-=============
-
 Add the following into your application contoller (controllers/application.rb):
 
   def rescue_action(exception)
     report_to_arecibo(exception)
   end
-
-Rails 2.0 and beyond
-==========================
-
-There is a rescue_from method that can be used. Add the following into your application controller:
-
-  send_errors_to_arecibo
-  
-Configuration and options
-=========================
-
-You can pass an error to Arecibo at any time anywhere else by doing:
-
-  send_errors_to_arecibo ErrorClass
-
-And finally there's a method in arecibo/lib/wrapper.rb called: override_arecibo where you can put any overrides
-or changes to the data you'd like to send, improving the information for you.
-
-Experimental: The ARECIBO_RESULT_TEMPLATE variable can be set to any value you'd like to render an error 
-back. You'll get @arecibodata available to you which allows you to show any information you'd like to,
-by default we only show the UID for looking up in Arecibo.
-
-Copy assets/arecibo.rhtml to your app/views directory, you can then have this rendered
-as a result, so if you copy it to app/views/layouts you can add in the following to get a default template after an error:
-
-ARECIBO_RESULT_TEMPLATE = "layouts/arecibo"
 
 Contributors and License
 ========================
