@@ -1,16 +1,9 @@
 require 'arecibolib/arecibo'
-require 'pp'
 require 'socket'
 require 'time'
 
 class ActionController::Base
-  def self.send_errors_to_arecibo error_class = Exception
-     rescue_from error_class do |exception|
-         report_to_arecibo exception
-     end
-  end
-  
-  def override_arecibo exception
+  def override_arecibo(exception)
       # this is a method once all the data
       # has been prepared for the default setup
       # if you would like to change it now is
@@ -18,7 +11,7 @@ class ActionController::Base
       # or exclude some kinds of errors, or certain ips
   end
   
-  def report_to_arecibo exception
+  def report_to_arecibo(exception)
     @arecibodata = {
       :account => ARECIBO_ACCOUNT_NUMBER,
       :msg => "",
@@ -30,7 +23,9 @@ class ActionController::Base
     }
     
     name = exception.class.name
-    if name == "ActionController::RoutingError"
+    notfounds = ["ActionController::RoutingError","ActiveRecord::RecordNotFound",
+                 "ActionController::UnknownController", "ActionController::UnknownAction"]
+    if notfounds.index(name)
         @arecibodata[:status] = 404
         @arecibodata[:priority] = 5
     else
