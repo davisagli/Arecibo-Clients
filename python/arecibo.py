@@ -90,7 +90,7 @@ class post:
             
 if __name__=='__main__':
     new = post()
-    new.set("account", "432dfb1c43bca8231ed5a5ae5e904132")
+    new.set("account", "YOUR KEY HERE")
     new.set("priority", 4)
     new.set("user_agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X...")
     new.set("url", "http://badapp.org/-\ufffdwe-cant-lose")
