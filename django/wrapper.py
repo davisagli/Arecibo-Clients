@@ -18,13 +18,18 @@ def post(request, status, **kw):
         return
     
     exc_info = sys.exc_info()
+    data = [ "%s: %s" % (k, v) for k, v in request.META.items() ]
             
     # build out data to send to Arecibo
+    # some fields (like timestamp)
+    # are automatically added
     data = {
         "account": settings.ARECIBO_PUBLIC_ACCOUNT_NUMBER,
         "url": request.build_absolute_uri(), 
         "ip": request.META.get('REMOTE_ADDR'),
         "traceback": "\n".join(traceback.format_tb(exc_info[2])),
+        "username": request.user.username, # this will be "" for Anonymous
+        "request": "\n".join(data),
         "type": str(exc_info[0].__name__),
         "msg": str(exc_info[1]),
         "status": status,

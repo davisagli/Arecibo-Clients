@@ -5,6 +5,7 @@ from httplib import HTTPConnection
 from urllib import urlencode
 from urlparse import urlparse
 from socket import gethostname, getdefaulttimeout, setdefaulttimeout
+from email.Utils import formatdate
 
 import smtplib
 import simplejson
@@ -15,7 +16,8 @@ url = urlparse(posturl)
 
 keys = ["account", "ip", "priority", "uid", 
     "type", "msg", "traceback", "user_agent", 
-    "url", "status", "server"]
+    "url", "status", "server", "timestamp",
+    "request", "username"]
     
 required = [ "account", ]
 
@@ -26,6 +28,7 @@ class post:
         self.smtp_server = "localhost"
         self.smtp_from = "noreply@clearwind.ca"
         self.set("server", gethostname())
+        self.set("timestamp", formatdate())
         
     # public
     def set(self, key, value):
@@ -87,22 +90,26 @@ class post:
             
 if __name__=='__main__':
     new = post()
-    new.set("account", "xcfv")
+    new.set("account", "432dfb1c43bca8231ed5a5ae5e904132")
     new.set("priority", 4)
     new.set("user_agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X...")
-    new.set("url", "http://badapp.org")
+    new.set("url", "http://badapp.org/-\ufffdwe-cant-lose")
     new.set("uid", "123124123123")
     new.set("ip", "127.0.0.1")    
-    new.set("type", "Test through smtp")
-    new.set("status", "603")
-    new.set("server", "Test Script")
+    new.set("type", "Test from python")
+    new.set("status", "403")
+    new.set("server", "Test Script") 
+    new.set("request", """This is the bit that goes in the request""")
+    new.set("username", "Jimbob")
     new.set("msg", """
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-
-ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut 
+labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit 
+esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+culpa qui officia deserunt mollit anim id est laborum
 """)
     new.set("traceback", """Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
-ZeroDivisionError: integer division or modulo by zero
+ZeroDivisionError: integer division or modulo by zero  df
 """)
     new.send()

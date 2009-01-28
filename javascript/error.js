@@ -51,12 +51,16 @@ arecibo.createForm = function() {
     form.setAttribute("action", "http://arecibo.clearwind.ca/v/1/"); 
     form.setAttribute("method", "post");
 
+    var now = new Date;
+
     arecibo.addInput(form, iframe, "account", arecibo.account);
     arecibo.addInput(form, iframe, "server", arecibo.server);
     arecibo.addTextArea(form, iframe, "msg", arecibo.msg);
     arecibo.addInput(form, iframe, "status", arecibo.status);
     arecibo.addInput(form, iframe, "priority", arecibo.priority);
     arecibo.addInput(form, iframe, "uid", arecibo.uid);
+    arecibo.addInput(form, iframe, "username", arecibo.uid);
+    arecibo.addInput(form, iframe, "timestamp", now.toUTCString());
     if (typeof(arecibo.url) == "undefined") {
         arecibo.addInput(form, iframe, "url", window.location);        
     } else {
@@ -64,6 +68,7 @@ arecibo.createForm = function() {
     }
     arecibo.addInput(form, iframe, "type", arecibo.type);
     arecibo.addTextArea(form, iframe, "traceback", arecibo.traceback);
+    arecibo.addTextArea(form, iframe, "request", arecibo.request);
     
     iframe.body.appendChild(form);
     form.submit();
