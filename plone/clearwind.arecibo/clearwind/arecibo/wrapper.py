@@ -9,6 +9,11 @@ from clearwind.arecibo.interfaces import IAreciboConfiguration
 from logging import getLogger
 log = getLogger('Plone')
 
+headers = ['HOME', 'HTTP_ACCEPT', 'HTTP_ACCEPT_ENCODING', \
+         'HTTP_ACCEPT_LANGUAGE', 'HTTP_CONNECTION', 'HTTP_HOST', 'LANG', \
+         'PATH_INFO', 'QUERY_STRING', 'REQUEST_METHOD', 'SCRIPT_NAME', \
+         'SERVER_NAME', 'SERVER_PORT', 'SERVER_PROTOCOL', 'SERVER_SOFTWARE']
+
 try:                          
     import site_configuation
     from site_configuration import config
@@ -70,7 +75,7 @@ def arecibo(context, **kw):
     
     error.set("account", cfg["account"])
     error.set("priority", priority)
-    error.set("user_agent", req['HTTP_USER_AGENT'])
+    error.set("user_agent", req.get('HTTP_USER_AGENT', ""))
     
     if req.get("QUERY_STRING"):
         error.set("url", "%s?%s" % (req['ACTUAL_URL'], req['QUERY_STRING']))
@@ -83,17 +88,15 @@ def arecibo(context, **kw):
     error.set("ip", req.get("X_FORWARDED_FOR", req.get('REMOTE_ADDR', '')))   
     error.set("type", kw.get("error_type"))
     error.set("status", status)
+    error.set("request", "\n".join([ "%s: %s" % (k, req[k]) for k in headers if req.get(k)]))
     
     if status != 404:
         # lets face it the 404 tb is not useful
         error.set("traceback", kw.get("error_tb"))
     
-    # i thought this might be useful
     usr = getSecurityManager().getUser()
-    error.set("msg", "%s\n\nOther:\n\tusername: %s\n\tuserid: %s" % (
-        kw.get("error_msg"), 
-        usr.getUserName(), 
-        usr.getId()))
+    error.set("username", "%s (%s)" % (usr.getId(), usr.getUserName()))
+    error.set("msg", kw.get("error_msg"))
 
     if error.transport == "http":    
         try:
