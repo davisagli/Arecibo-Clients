@@ -23,7 +23,11 @@ def post(request, status, **kw):
              'PATH_INFO', 'QUERY_STRING', 'REQUEST_METHOD', 'SCRIPT_NAME', \
              'SERVER_NAME', 'SERVER_PORT', 'SERVER_PROTOCOL', 'SERVER_SOFTWARE']
     data = [ "%s: %s" % (k, request.META[k]) for k in items if request.META.get(k)]
-            
+    if request.method.lower() == "post":
+        data.append("POST and FILES Variables:")
+        data.extend( [ "    %s: %s" % (k, v) for k, v in request.POST.items() ])
+        data.extend( [ "    %s: %s" % (k, v) for k, v in request.FILES.items() ])
+        
     # build out data to send to Arecibo
     # some fields (like timestamp)
     # are automatically added
@@ -33,7 +37,7 @@ def post(request, status, **kw):
         "ip": request.META.get('REMOTE_ADDR'),
         "traceback": "\n".join(traceback.format_tb(exc_info[2])),
         "username": request.user.username, # this will be "" for Anonymous
-        "request": "\n".join(data),
+        "request": "\n".join(data).encode("utf-8"),
         "type": str(exc_info[0].__name__),
         "msg": str(exc_info[1]),
         "status": status,
@@ -86,6 +90,9 @@ def post(request, status, **kw):
     except:
         # ideally we'd log this out here, but
         # there isn't a built in log for Django
+        # if you want this to be an explicit fail swap
+        # change the comments on the next two lines around
+        #raise
         pass
         
     return data["uid"]
