@@ -16,6 +16,12 @@ def post(request, status, **kw):
     # really don't care about them too much
     if request.path in ignores:
         return
+        
+    # if you've set INTERNAL_IPS, we'll respect that and 
+    # ignore any requests, we suggest settings this so your
+    # unit tests don't blast the server
+    if request.META.get('REMOTE_ADDR') in settings.INTERNAL_IPS:
+        return
     
     exc_info = sys.exc_info()
     items = ['HOME', 'HTTP_ACCEPT', 'HTTP_ACCEPT_ENCODING', \
