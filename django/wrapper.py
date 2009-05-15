@@ -24,7 +24,7 @@ def post(request, status, **kw):
         return
     
     exc_info = sys.exc_info()
-    items = ['HOME', 'HTTP_ACCEPT', 'HTTP_ACCEPT_ENCODING', \
+    items = ['HOME', 'HTTP_ACCEPT', 'HTTP_ACCEPT_ENCODING', 'HTTP_REFERER', \
              'HTTP_ACCEPT_LANGUAGE', 'HTTP_CONNECTION', 'HTTP_HOST', 'LANG', \
              'PATH_INFO', 'QUERY_STRING', 'REQUEST_METHOD', 'SCRIPT_NAME', \
              'SERVER_NAME', 'SERVER_PORT', 'SERVER_PROTOCOL', 'SERVER_SOFTWARE']
