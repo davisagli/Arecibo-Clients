@@ -34,9 +34,10 @@ class ActionController::Base
     end
     
     @arecibodata[:type] = exception.class.name
-    @arecibodata[:traceback] = "#{exception.backtrace.join("\n")}"
+    @arecibodata[:traceback] = exception.exception.to_s + "\n\n" + "#{exception.backtrace.join("\n")}"
     # make a nice message out of the post @arecibodata
     request.env.each { |k, v| @arecibodata[:msg] += "#{k.to_s}: #{v.to_s}\n"  }
+    @arecibodata[:msg] = "#{params.inspect}\n\n#{@arecibodata[:msg]}"
     
     override_arecibo(exception)
     
