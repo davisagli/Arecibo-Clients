@@ -1,6 +1,6 @@
 // $Id$
-// Copyright ClearWind Consulting Ltd., 2008
-// Version 1.0
+// Copyright ClearWind Consulting Ltd., 2008-9
+// Version 1.2
 // Posts to /v/1/
 
 var arecibo = new Object();
@@ -48,7 +48,8 @@ arecibo.createForm = function() {
     if (arecibo.loaded) { return; }
     arecibo.loaded = true;
     var form = iframe.createElement("form");
-    form.setAttribute("action", "http://arecibo.clearwind.ca/v/1/"); 
+    var host = (("https:" == document.location.protocol) ? "https://" : "http://");
+    form.setAttribute("action", host + "www.areciboapp.com/v/1/"); 
     form.setAttribute("method", "post");
 
     var now = new Date;
