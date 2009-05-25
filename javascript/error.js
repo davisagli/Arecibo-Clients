@@ -60,7 +60,7 @@ arecibo.createForm = function() {
     arecibo.addInput(form, iframe, "status", arecibo.status);
     arecibo.addInput(form, iframe, "priority", arecibo.priority);
     arecibo.addInput(form, iframe, "uid", arecibo.uid);
-    arecibo.addInput(form, iframe, "username", arecibo.uid);
+    arecibo.addInput(form, iframe, "username", arecibo.username);
     arecibo.addInput(form, iframe, "timestamp", now.toUTCString());
     if (typeof(arecibo.url) == "undefined") {
         arecibo.addInput(form, iframe, "url", window.location);        
