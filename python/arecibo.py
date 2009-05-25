@@ -2,6 +2,13 @@
 # Copyright ClearWind Consulting Ltd., 2008
 # Under the BSD License, see LICENSE.TXT
 from httplib import HTTPConnection
+has_https = False
+try:
+    from httplib import HTTPSConnection
+    has_https = True
+except ImportError:
+    pass
+    
 from urllib import urlencode
 from urlparse import urlparse
 from socket import gethostname, getdefaulttimeout, setdefaulttimeout
@@ -54,8 +61,8 @@ class post:
 
     def _send(self):
         key = self.transport.lower()
-        assert key in ["http", "smtp"]
-        if key == "http":
+        assert key in ["http", "smtp", "https"]
+        if key in ["http", "https"]:
             self._send_http()
         elif key == "smtp":
             self._send_smtp()
@@ -72,7 +79,10 @@ class post:
         s.quit()
     
     def _send_http(self):
-        h = HTTPConnection(url[1])
+        if self.transport == "https" and has_https:
+            h = HTTPSConnection(url[1])
+        else:
+            h = HTTPConnection(url[1])
         headers = {
             "Content-type": 'application/x-www-form-urlencoded; charset="utf-8"',
             "Accept": "text/plain"}
@@ -90,6 +100,7 @@ class post:
             
 if __name__=='__main__':
     new = post()
+    #new.transport = "https"
     new.set("account", "YOUR KEY HERE")
     new.set("priority", 4)
     new.set("user_agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X...")
