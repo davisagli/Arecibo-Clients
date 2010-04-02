@@ -17,7 +17,7 @@ headers = ['HOME', 'HTTP_ACCEPT', 'HTTP_ACCEPT_ENCODING', \
 try:                          
     import site_configuration
     from site_configuration import config
-    log("Arecibo configuration read from: %s" % os.path.abspath(site_configuration.__file__))
+    log.info("Arecibo configuration read from: %s" % os.path.abspath(site_configuration.__file__))
 except:                  
     # please don't override this here, look in site_configuration.py for a chance to 
     # overload this, details are there too
